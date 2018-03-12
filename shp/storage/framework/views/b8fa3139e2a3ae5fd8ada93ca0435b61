@@ -1,0 +1,55 @@
+<?php $__env->startSection('content'); ?>  
+   <div class="content">
+    	<div class="container">
+            <div class="task-form">   
+	<?php if(Auth::guest()): ?>
+		<div class="row">
+                	<div class="col-sm-offset-1 col-md-9"> 
+			   <form method="POST" action="<?php echo e(url('login')); ?>" class="form-horizontal">
+			   <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+				        <h1 title="Enter your login information">Enter your login information</h1>
+			<?php if($errors->all()): ?>
+			<div class="alert alert-danger">
+			<?php foreach($errors->all() as $error): ?>
+			    <p><?php echo e($error); ?></p>
+			<?php endforeach; ?>
+			 </div>
+			<?php endif; ?>
+			      <div class="form-group">
+                                <div class="col-sm-12">
+                        <?php echo Form::text('email', old('email'), array('placeholder'=>'Email Address', 'class'=>"form-control")); ?>
+
+                         </div>
+			 </div>
+			     <div class="form-group">
+                                <div class="col-sm-12">
+			<?php echo Form::password('password', ['placeholder'=>'Password']); ?>
+
+			   </div>
+			 </div>
+			      <div class="form-group">
+                                <div class="col-sm-12">
+                       <?php echo Form::submit('Login', ['class' => 'btn-orange']); ?>
+
+				</div>
+			</div>
+                        <div><!--<a href="<?php echo e(url('/password/email')); ?>" class="plain text-uppercase">Forget your password?</a>--></div>
+                    </form>
+			<!--<h2> Don't have account?</h2> <a href="<?php echo e(url('/register')); ?>" class="btn">Register</a>-->
+                    </div>
+	<?php else: ?>
+		<?php if(Auth::user()): ?>
+			Welcome <?php echo e(Auth::user()->name); ?> 
+			<a class="btn btn-green text-uppercase" href="<?php echo e(url('logout')); ?>" title="Logout">logout</a>
+			 
+		<?php endif; ?>
+	<?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

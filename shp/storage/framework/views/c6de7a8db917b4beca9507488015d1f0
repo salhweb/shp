@@ -1,0 +1,120 @@
+
+<?php $__env->startSection('content'); ?>
+   <div class="content">
+    	<div class="container">
+<?php if(Session::has('message')): ?>
+    <div class="alert alert-info  alert-dismissable">
+     		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<?php echo Session::get('message'); ?>
+
+	</div>
+<?php endif; ?>
+	
+    <?php if($errors->has()): ?>
+        <?php foreach($errors->all() as $error): ?>
+            <div class='bg-danger alert  alert-dismissable'>
+     		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             <?php echo $error; ?>
+
+             </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Students </h3>
+              </div>
+              <div class="form-group col-md-2 pull-right">
+<a href="<?php echo e(url('add-student')); ?>" ><input class="btn  btn-primary" value="Add Student" type="submit">
+</a></div>
+ </div>
+            <div class="clearfix"></div>
+                          
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Filter</h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+					<div class="row">
+                   <div class="col-lg-10 col-lg-offset-1">
+ 	
+   <?php echo Form::open(['method'=>'get']); ?>
+
+
+<div class="form-group col-md-3">
+
+    <?php echo Form::text('user_keyword', app('request')->input('user_keyword'), ['placeholder' => 'Search Name','class' => 'form-control']); ?></div>
+    <div class="form-group col-md-3">
+  <select name="class_id" id="class_id" class="form-control">
+ <option value="">Select Class</option>
+ <?php foreach($classes as $class): ?>
+ <option <?php if(isset($_GET['class_id']) && $_GET['class_id'] == $class->id) {echo 'selected'; } ?>  value="<?php echo e($class->id); ?>"><?php echo e($class->class_name); ?></option>
+ <?php endforeach; ?>
+ </select>
+ </div>
+    <?php echo Form::hidden('user_search',1); ?>
+
+
+<div class="form-group col-md-2">
+<?php echo Form::submit('Search Students', ['class' => 'btn  btn-primary']); ?>
+
+</div>
+<div class="form-group col-md-2">
+<a class = 'btn  btn-danger' href='<?php echo URL::to('students'); ?>'>Reset Filters</a>
+</div>
+
+<?php echo Form::close(); ?>
+
+					</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+			
+			<div class="x_panel">
+				
+					  <div class="x_content">
+                    
+                    <table id="datatable" class="table table-striped table-bordered">
+                     <?php if(isset($users)): ?>
+     <?php echo $users->appends(Input::except('page'))->render(); ?>
+    <?php if(count($users)>0): ?>
+                      <thead>
+                        <tr>
+						<th>S/no</th>
+                          <th>Name</th>
+                          <th>Father Name</th>
+                          <th>Roll No.</th>
+                          <th>Class</th>
+                       </tr>
+                      </thead>
+
+
+                      <tbody>
+                      <?php foreach($users as $key =>$user): ?>
+                        <tr>
+						<td><?php echo e($key+1); ?></td>
+                          <td><?php echo $user->name; ?></td>
+                          <td><?php echo $user->father_name; ?></td>
+                          <td><?php echo $user->roll_number; ?></td>
+                          <td><?php if(isset($user->class_name)): ?>   <?php echo $user->class_name; ?> <?php endif; ?></td>
+                         </tr>
+                        <?php endforeach; ?>
+                   </tbody>
+                    </table>
+                    <?php echo $users->appends(Input::except('page'))->render(); ?>
+    <?php else: ?>
+    <h2>No results found for your search</h2>
+    <?php endif; ?>
+    <?php endif; ?>
+                  </div>
+                </div>
+             
+
+ 
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

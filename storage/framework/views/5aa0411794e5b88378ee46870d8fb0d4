@@ -1,0 +1,117 @@
+<?php $__env->startSection('content'); ?>
+   
+   <div class="content">
+    	<div class="container">
+<div class="row">
+<div class="col-lg-10 col-lg-offset-1">
+ 	<center><h1>STUDENTS</h1></center>
+    	
+ <?php if(Session::has('message')): ?>
+    <div class="alert alert-info"><?php echo Session::get('message'); ?></div>
+<?php endif; ?>
+		<a href="<?php echo URL::to('users/create'); ?>" class="btn btn-success pull-right">+ Add New User</a>
+       
+        <?php echo Form::open(['method'=>'get']); ?>
+
+
+<div class="form-group col-md-3">
+
+    <?php echo Form::text('user_keyword', app('request')->input('user_keyword'), ['placeholder' => 'Search Name','class' => 'form-control']); ?>
+
+    <?php echo Form::hidden('user_search',1); ?>
+
+</div>
+
+<div class="form-group col-md-2">
+ <div class="btn-group btn-group1" style="margin-right:20px;">
+  <button style="min-width:150px;" class="btn dropdown-toggle" data-toggle="dropdown" data-inserted-to="user_type" id="user_role_dropdown" aria-expanded="true">Select Class</button>
+                     <?php if(isset($classes)): ?>
+					 <?php if(count($classes) > 0): ?>
+                                         <ul class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenu2" role="menu" id="classes">
+					 <?php foreach($classes as $class): ?>
+                                           <li><a tabindex="-1" id="<?php echo $class->id; ?>" href="javascript:void(0);" > <?php echo ucfirst($class->class_name); ?></a></li>
+                                         <?php endforeach; ?>
+                                         </ul>
+					<?php endif; ?>
+                    <?php endif; ?>
+                                     </div>
+                                     </div>
+                                     <?php echo Form::hidden('class', app('request')->input('class'),['id'=>'class'] ); ?>
+
+
+<div class="form-group col-md-2">
+<?php echo Form::submit('Search Users', ['class' => 'btn  btn-primary']); ?>
+
+</div>
+<div class="form-group col-md-2">
+<a class = 'btn  btn-danger' href='<?php echo URL::to('users'); ?>'>Reset Filters</a>
+</div>
+<?php echo Form::close(); ?>
+
+                                  
+	
+    <div class="table-responsive table">
+    <?php if(isset($users)): ?>
+    <?php if(count($users)>0): ?>
+        <table class="table table-bordered table-striped">
+ 
+            <thead>
+                <tr>
+                    
+                    <th>Username</th>
+		    <th width="15%">Father Name</th>
+            <th>Class</th>
+            <th>D.O.B.</th>
+                   
+                    <th width="46%">Action</th>
+                </tr>
+            </thead>
+ 
+            <tbody>
+            
+                <?php foreach($users as $user): ?>
+                <tr>
+                     
+                    <td><?php echo $user->name; ?></td>
+					<td><?php echo $user->father_name; ?></td>
+                    <td><?php echo ucfirst($user->class_name); ?></td>
+                    <td><?php echo ucfirst($user->birth_date); ?></td>
+                    <td>
+                        <!--a href="users/<?php echo $user->user_id; ?>/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a--> 
+                        <a href="users/<?php echo $user->user_id; ?>/checkup" class="btn btn-info pull-left" style="margin-right: 6px;">Checkup</a> 
+                        <a href="users/<?php echo $user->user_id; ?>/basic-health-detail" class="btn btn-info pull-left" style="margin-right: 6px;">Basic Health Detail</a>  
+                        <a href="users/<?php echo $user->user_id; ?>/student-details" class="btn btn-info pull-left" style="">Student Details</a>                   
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+ 
+        </table>
+    
+    <?php else: ?>
+    <h2>No results found for your search</h2>
+    <?php endif; ?>
+    <?php endif; ?>
+    </div>
+ </div>
+   
+ 
+</div>
+ </div>
+ 
+ <script type='text/javascript'>
+$(document).ready(function(){
+
+	$('#classes li a').click(function(){ 
+	     var id = $(this).attr('id');
+		 
+		$('#class').val(id);
+		
+		
+	});
+	});
+	</script>
+ 
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

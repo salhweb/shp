@@ -1,0 +1,93 @@
+<?php $__env->startSection('content'); ?>
+   
+   <div class="content">
+    	<div class="container">
+<div class="row">
+<div class="col-lg-10 col-lg-offset-1">
+ 	<center><h1>Students</h1></center>
+     <?php if(Session::has('message')): ?>
+    <div class="alert alert-info"><?php echo Session::get('message'); ?></div>
+<?php endif; ?>
+		
+       
+        <?php echo Form::open(['method'=>'get']); ?>
+
+
+<div class="form-group col-md-3">
+
+    <?php echo Form::text('user_keyword', app('request')->input('user_keyword'), ['placeholder' => 'Search Name','class' => 'form-control']); ?>
+
+    <?php echo Form::hidden('user_search',1); ?>
+
+</div>
+<div class="form-group col-md-2">
+<?php echo Form::submit('Search Users', ['class' => 'btn  btn-primary']); ?>
+
+</div>
+<div class="form-group col-md-2">
+<a class = 'btn  btn-danger' href='<?php echo URL::to('students'); ?>'>Reset Filters</a>
+</div>
+<?php echo Form::close(); ?>
+
+                                   
+	
+    <div class="table-responsive table">
+    <?php if(isset($users)): ?>
+     <?php echo $users->appends(Input::except('page'))->render(); ?>
+    <?php if(count($users)>0): ?>
+        <table class="table table-bordered table-striped">
+ 
+            <thead>
+                <tr>
+                    <th width="5%">ID</th>
+                    <th>Username</th>
+                     <th width="10%">Class</th>                  
+                    
+                </tr>
+            </thead>
+ 
+            <tbody>
+            
+                <?php foreach($users as $user): ?>
+                <tr>
+                     <td><a href="<?php echo URL::to('student/'. $user->student_id); ?>"><?php echo $user->student_id; ?></a></td>
+                    <td><?php echo $user->name; ?></td>
+                  
+                  <td> <?php if(isset($user->class_name)): ?>   <?php echo $user->class_name; ?> <?php endif; ?></td>
+
+ 
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+ 
+        </table>
+       <?php echo $users->appends(Input::except('page'))->render(); ?>
+    <?php else: ?>
+    <h2>No results found for your search</h2>
+    <?php endif; ?>
+    <?php endif; ?>
+    </div>
+ </div>
+   
+ 
+</div>
+ </div>
+ <script type="text/javascript">
+ $(document).ready(function(){
+	 $('#user_type').change(function() {
+		 if($(this).val()==5)
+		 {
+			 $('.select_schools').removeClass('hide');
+		 }
+		 else
+		 {
+			  $('.select_schools').addClass('hide');
+			  $('#school').val('');
+
+		 }
+	 });
+ });
+ </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

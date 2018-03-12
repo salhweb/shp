@@ -1,0 +1,143 @@
+
+<?php $__env->startSection('content'); ?>
+
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Doctors Listing </h3>
+              </div>
+		  
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Doctors Detials</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+					<div class="row">
+                    <?php echo Form::open(['url' => 'doctors','method'=>'get','class'=>'form-horizontal form-label-left']); ?>
+
+                    <!--<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">-->
+					<div class="col-md-2 col-sm-3 col-xs-12 form-group">
+                          <select class="form-control" name="school_id">
+                            <option value="">Select School</option>
+                            <?php foreach($schools as $school): ?>
+                            	 <option value="<?php echo e($school->id); ?>"><?php echo e($school->name); ?></option>
+                            <?php endforeach; ?>
+                          </select>
+      
+                      </div> 
+				
+                        <div class="col-md-2 col-sm-3 col-xs-12 form-group">
+                          <select class="form-control" name="doctor_type">
+                          <option value="">Select Speciality</option>
+                            <?php foreach($doctor_types as $doctor_type): ?>
+                            <option value="<?php echo e($doctor_type->id); ?>"><?php echo e($doctor_type->type); ?></option>
+                            <?php endforeach; ?>
+                          </select>
+                       
+                      </div>	
+				
+                        <div class="col-md-2 col-sm-3 col-xs-12 form-group">
+                          <input type="text" class="form-control" name="doctor_name" placeholder="Name">
+                        </div>
+                      	
+
+					
+                        
+
+                      
+                        <div class="col-md-2 col-sm-3 col-xs-12  form-group">
+                          
+                          <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                      
+
+                    </form>
+					</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+			
+			<div class="col-md-12 col-sm-12 col-xs-12">
+                
+                <div class="x_panel">
+				
+					  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                      Doctor Listing 
+                    </p>
+                    
+                    <table id="datatable" class="table table-striped table-bordered">
+                    <?php if(isset($doctors)): ?>
+     <?php // echo $teachers->appends(Input::except('page'))->render(); ?>
+     <?php if(count($doctors)>0): ?>
+                      <thead>
+                        <tr>
+						<th>S/no</th>
+                          <th>Doctor Name</th>
+                          <th>Speciality</th>
+                          <th>Assign Schools</th>
+                          <th>Qualification</th>
+						  <th>Contact</th>
+						  <th>Address</th>
+						  <th>Edit</th>
+						  <th>View</th>
+						  
+						  <th><input type="checkbox" id="check-all" class="flat"></th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+                   
+                      <?php foreach($doctors as $sno => $doctor): ?>
+                        <tr>
+						<td><?php echo e($sno+1); ?></td>
+                          <td><?php echo e($doctor->name); ?></td>
+                          <td><?php echo e($doctor->type); ?></td>
+                          <td><?php echo e($doctor->school_name); ?></td>
+                          <td><?php echo e($doctor->education); ?></td>
+						  <td><?php echo e($doctor->email); ?></td>
+						  <td><?php echo e($doctor->address); ?></td>
+                          <td><a href=<?php echo e(url('doctor/'.$doctor->id.'/edit')); ?>>Edit</a></td>
+                          <td><a href="#">Active</a></td>
+						  <td><input type="checkbox" id="check-all" class="flat"></td>
+                        </tr>
+                         <?php endforeach; ?>
+                        
+                      </tbody>
+                    </table>
+                     <?php //echo $teacher->appends(Input::except('page'))->render(); ?>
+                     <?php else: ?>
+    <h2>No results found for your search</h2>
+    <?php endif; ?>
+    <?php endif; ?>
+                  </div>
+                </div>
+              </div>
+			  
+			  
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

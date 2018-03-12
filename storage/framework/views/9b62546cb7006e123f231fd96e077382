@@ -1,0 +1,169 @@
+
+<?php $__env->startSection('content'); ?>
+   <div class="content">
+    	<div class="container">
+<?php if(Session::has('message')): ?>
+    <div class="alert alert-info  alert-dismissable">
+     		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<?php echo Session::get('message'); ?>
+
+	</div>
+<?php endif; ?>
+	
+    <?php if($errors->has()): ?>
+        <?php foreach($errors->all() as $error): ?>
+            <div class='bg-danger alert  alert-dismissable'>
+     		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             <?php echo $error; ?>
+
+             </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+  
+          
+           
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h3>Add Nurse</h3>
+                  <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                      <?php echo Form::open(['role' => 'form', 'url' => 'add-nurse' ,'id' => 'add-nurse' ,'class' => 'form-horizontal  form-label-lefts','files' => true]); ?>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Nurse Name">Nurse Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                           <?php echo Form::text('nurse_name', null, ['required' =>'required','placeholder' => 'nurse name', 'id' => 'nurse-display-name' ,'class' => 'form-control col-md-7 col-xs-12 reqiured']); ?>
+
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                     <?php echo Form::text('email', null, ['required'=>'required','placeholder' => 'email', 'id'=>'email', 'class' => 'form-control col-md-7 col-xs-12 reqiured']); ?> 
+                        </div>
+                      </div>
+                      <div class="form-group">
+                            	<label class="col-sm-3 control-label">Password</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+					 <?php echo Form::password('password', ['required'=>'required','placeholder' => 'Password',  'class' => 'form-control  col-md-7 col-xs-12 reqiured']); ?>
+
+                                </div>
+                            </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                       <?php echo Form::text('phone', null, ['required' =>'required','placeholder' => 'phone', 'id'=>'phone', 'class' => 'form-control col-md-7 col-xs-12 reqiured']); ?>    
+                        </div>
+                      </div>
+                      <div class="form-group">
+                            	<label class="col-sm-3 control-label">Gender</label>
+                                <div class="col-sm-6">
+                               		 <div class="col-sm-6">
+                               			 <label class="col-sm-3 control-label">Male</label>
+                               			 <div class="col-sm-6">
+                               <?php echo Form::radio('gender', 'male', false,['class' =>'form-control reqiured']); ?>
+
+                               			 </div>
+                                	</div>
+                               		 <div class="col-sm-6">
+                                     	 <label class="col-sm-3 control-label">Female</label>
+                              			 <div class="col-sm-6">
+								<?php echo Form::radio('gender', 'female',false,['class' =>'form-control reqiured']); ?>
+
+                                		</div>
+                                </div>
+                                </div>
+                    </div>
+                    <div class="form-group">
+                            	<label class="col-sm-3 control-label">Date of Birth</label>
+                                <div class="col-sm-6">
+                                <?php echo Form::input('date', 'birth_date', null,array('required' =>'required','placeholder'=>'Birth date', 'id'=>"birth_date" , 'class'=>"form-control reqiured" )); ?>
+
+                                </div>
+                            </div>
+                      
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">State</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <?php $indian_states = Session::get('indian_states'); ?>
+                          <select class="form-control required" name="state" reuired="required">
+						 <option value="">Select State</option>
+                             <?php foreach($indian_states as $state_abr => $state): ?>
+                       <option value="<?php echo e($state_abr); ?>"><?php echo e($state); ?></option>
+                       <?php endforeach; ?> 
+         
+							</select>
+                        </div></br>
+						</div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo Form::text('city', null, ['required' =>'required','placeholder' => 'city', 'id'=>'city' , 'class' => 'form-control col-md-7 col-xs-12 reqiured']); ?>
+
+                        </div>
+                      </div>
+					   <div class="form-group">
+                        <label for="Address" class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                      <?php echo Form::textarea('address', null, ['required' =>'required','placeholder' => 'address','id'=>'address', 'class' => 'form-control col-md-7 col-xs-12 reqiured']); ?>
+
+                    </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Qualification</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <?php echo Form::text('education', null, ['required' =>'required','placeholder' => 'Education qualification', 'id' => 'education' , 'class' => 'form-control col-md-7 col-xs-12 reqiured']); ?>
+
+                        </div>
+                      </div>
+                      <div class="form-group ">
+                            	<label class="col-sm-3 control-label">Assign School</label>
+                                <div class="col-sm-6">
+                       <?php if(isset($schools)): ?>
+                     <?php if(count($schools) > 0): ?>
+                                        <select class="form-control required" name="school_id" > 
+                                        <option value="">Select School</option>
+					 <?php foreach($schools as $school): ?>
+                                           <option value="<?php echo $school->id; ?>" > <?php echo ucfirst($school->name); ?>
+
+                                           </option>
+                                         <?php endforeach; ?>
+                                         </select>
+					<?php endif; ?>
+                    <?php endif; ?>
+                                </div>
+                                </div>
+                                <div class="well">
+                           	<label>Profile Picture</label>
+                            	<div class="row">                               	
+                                    
+                                </div>
+			<?php echo Form::file('userpic',array('class'=>'form-control')); ?>
+
+                           </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                     <?php echo Form::close(); ?>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+                    <!-- end form for validations -->
+             
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

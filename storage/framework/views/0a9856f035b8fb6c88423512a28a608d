@@ -1,0 +1,155 @@
+<?php $__env->startSection('content'); ?>
+   
+   <div class="content">
+    	<div class="container">
+<div class="row">
+<div class="col-lg-10 col-lg-offset-1">
+ 	<center><h1>USERS</h1></center>
+     <?php if(Session::has('message')): ?>
+    <div class="alert alert-info"><?php echo Session::get('message'); ?></div>
+<?php endif; ?>
+		
+       
+        <?php echo Form::open(['method'=>'get']); ?>
+
+
+<div class="form-group col-md-3">
+
+    <?php echo Form::text('user_keyword', app('request')->input('user_keyword'), ['placeholder' => 'Search Name','class' => 'form-control']); ?>
+
+    <?php echo Form::hidden('user_search',1); ?>
+
+</div>
+<div class="form-group col-md-2">
+<select name="user_type" id="user_type" class="form-control">
+<?php if(isset($user_roles)): ?>
+						 <option value="">Select User Type</option>
+					 <?php if(count($user_roles) > 0): ?>
+                                        
+					 <?php foreach($user_roles as $user_role): ?>
+                     <?php if(app('request')->input('user_type') == $user_role->id)
+					 {
+						 $selected='selected';
+					 }
+					 else
+					 {
+						  $selected='';
+					 }
+					 ?>
+                                           <option <?php echo $selected ;?> value="<?php echo $user_role->id; ?>" > <?php echo ucfirst($user_role->role); ?></option>
+                                         <?php endforeach; ?>                                    
+					<?php endif; ?>
+                    <?php endif; ?>
+</select>
+</div>
+<div class="form-group col-md-2 select_schools <?php if(app('request')->input('user_type') == 5) {} else { echo'hide'; } ?>">
+<select name="school" id="school" class="form-control">
+						 <option value="">Select School</option>
+                     <?php if(isset($schools)): ?>
+					 <?php if(count($schools) > 0): ?>
+					 <?php foreach($schools as $school): ?>
+                     <?php if(app('request')->input('school') == $school->id)
+					 {
+						 $selected='selected';
+					 }
+					 else
+					 {
+						  $selected='';
+					 }
+					 ?>
+                           <option <?php echo $selected ;?>  value="<?php echo $school->id; ?>" > <?php echo ucfirst($school->name); ?></option>
+                                         <?php endforeach; ?>
+					<?php endif; ?>
+                    <?php endif; ?>
+                    </select>
+                     </div>
+<div class="form-group col-md-2">
+<?php echo Form::submit('Search Users', ['class' => 'btn  btn-primary']); ?>
+
+</div>
+<div class="form-group col-md-2">
+<a class = 'btn  btn-danger' href='<?php echo URL::to('admin/users'); ?>'>Reset Filters</a>
+</div>
+<?php echo Form::close(); ?>
+
+                                   
+	
+    <div class="table-responsive table">
+    <?php if(isset($users)): ?>
+     <?php echo $users->appends(Input::except('page'))->render(); ?>
+    <?php if(count($users)>0): ?>
+        <table class="table table-bordered table-striped">
+ 
+            <thead>
+                <tr>
+                    <th width="5%">ID</th>
+                    <th>Username</th>
+                     <th width="10%">Class</th>
+		    <th width="15%">User Type</th>
+                   
+                    <th width="22%">Action</th>
+                </tr>
+            </thead>
+ 
+            <tbody>
+            
+                <?php foreach($users as $user): ?>
+                <tr>
+                     <td><?php if(ucfirst($user->role) == 'Student'): ?><a href="<?php echo URL::to('admin/users/'. $user->id); ?>"><?php echo $user->id; ?></a> <?php else: ?> <?php echo $user->id; ?> <?php endif; ?></td>
+                    <td><?php echo $user->name; ?></td>
+                    <?php if($user->role=='student'): ?>
+                  <td> <?php if(isset($user->class_name)): ?>   <?php echo $user->class_name; ?> <?php endif; ?></td>
+         
+                    <?php else: ?>
+              		 <td>     N/A </td>
+                    <?php endif; ?>
+					
+                    <td><?php echo ucfirst($user->role); ?></td>
+                    <td>
+                    	<?php if(ucfirst($user->role) == 'Doctor' || ucfirst($user->role) == 'Nurse'): ?>
+                    	 <a href="users/<?php echo $user->id; ?>/report" class="btn btn-info pull-left" style="margin-right: 3px;">Report</a> 
+                         <?php endif; ?>
+                        <a href="users/<?php echo $user->id; ?>/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>   
+                       <?php echo Form::open(['url' => '/admin/users/' . $user->id, 'method' => 'DELETE']); ?>
+
+                        <?php echo Form::submit('Delete', ['class' => 'btn btn-danger']); ?>
+
+                        <?php echo Form::close(); ?>
+
+                      
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+ 
+        </table>
+       <?php echo $users->appends(Input::except('page'))->render(); ?>
+    <?php else: ?>
+    <h2>No results found for your search</h2>
+    <?php endif; ?>
+    <?php endif; ?>
+    </div>
+ </div>
+   
+ 
+</div>
+ </div>
+ <script type="text/javascript">
+ $(document).ready(function(){
+	 $('#user_type').change(function() {
+		 if($(this).val()==5)
+		 {
+			 $('.select_schools').removeClass('hide');
+		 }
+		 else
+		 {
+			  $('.select_schools').addClass('hide');
+			  $('#school').val('');
+
+		 }
+	 });
+ });
+ </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

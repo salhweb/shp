@@ -1,0 +1,62 @@
+
+<?php $__env->startSection('content'); ?>
+   
+   <div class="content">
+    	<div class="container">
+<div class="row">
+<div class="col-lg-10 col-lg-offset-1">
+ 	
+     <?php if(Session::has('message')): ?>
+    <div class="alert alert-info"><?php echo Session::get('message'); ?></div>
+<?php endif; ?>
+	
+
+
+     <?php echo Form::open(['method'=>'get']); ?>
+
+    <?php echo Form::hidden('user_search',1); ?>
+
+
+<div class="form-group col-md-3">
+
+ <select name="school_id" id="school_id" class="form-control">
+ <option>Select School</option>
+ <?php foreach($schools as $school): ?>
+ 
+ <option <?php if(isset($_GET['school_id']) && $_GET['school_id'] == $school->id) {echo 'selected'; } ?>  value="<?php echo e($school->id); ?>"><?php echo e($school->name); ?></option>
+ <?php endforeach; ?>
+ </select>
+ </div>
+ <div class="form-group col-md-3">
+  <select name="class_id" id="class_id" class="form-control">
+ <option>Select Class</option>
+ <?php foreach($classes as $class): ?>
+ <option <?php if(isset($_GET['class_id']) && $_GET['class_id'] == $class->id) {echo 'selected'; } ?>  value="<?php echo e($class->id); ?>"><?php echo e($class->class_name); ?></option>
+ <?php endforeach; ?>
+ </select>
+ </div>
+ 
+                                     <?php echo Form::hidden('user_type', app('request')->input('user_type'),['id'=>'user_type'] ); ?>
+
+<div class="form-group col-md-2">
+<?php echo Form::submit('Generate PDF', ['class' => 'btn  btn-primary']); ?>
+
+</div>
+<div class="form-group col-md-2">
+<a class = 'btn  btn-danger' href='<?php echo URL::to('admin/idcard'); ?>'>Reset Filters</a>
+</div>
+<?php echo Form::close(); ?>
+
+            <br />
+<br />                        
+	<?php if(isset($pdf) && $pdf !=''): ?>
+    	<a href="<?php echo e(url($pdf)); ?>" target="_blank" class="btn btn-primary btn-lg">Download PDF</a>
+    <?php endif; ?>
+   
+    </div>
+ </div>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('layouts.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

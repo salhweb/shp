@@ -1,0 +1,33 @@
+    <div class="cell text-center">
+
+{!! Form::open(['url' => 'tasks/create','method'=>'post','files' => true,'class'=>'register']) !!}
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="well">
+                            <h1 title="Sign up below">Sign up below</h1>
+@if($errors->all())
+	<div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+	 </div>
+	@endif
+                            <fieldset>{!! Form::text('name',null,array('placeholder'=>'Name2 (Mandatory)')) !!}</fieldset>
+                            <fieldset>{!! Form::text('company',null,array('placeholder'=>'Company (Optional)')) !!}</fieldset>
+                            <fieldset>{!! Form::text('phone',null,array('placeholder'=>'Phone Number (Optional)')) !!}</fieldset>
+                            <fieldset>{!! Form::email('email',null,array('placeholder'=>'Email (Mandatory)')) !!}</fieldset>
+                            <fieldset>{!! Form::password('password',array('placeholder'=>'Password')) !!}</fieldset>
+                            <fieldset>{!! Form::password('password_confirmation',array('placeholder'=>'Password')) !!}</fieldset>
+                            <fieldset><div class="btn-group"> <input disabled="disabled" placeholder="Company Logo" id="uploadFile">
+                                <div class="fileUpload btn btn-primary">
+                                    <span>Upload</span>
+                                     {!! Form::file('company_logo',array('class'=>'upload')) !!}	
+                                </div>
+                                </div></fieldset>
+                        </div>
+                        <div>{!! Form::submit('sign up',array('class'=>'btn btn-white text-uppercase')) !!}</div>
+                        <div><a href="{{ url('/password/email') }}" class="plain text-uppercase">Forget your password?</a></div>
+             {!! Form::close() !!}
+                </div>
+
+
+
