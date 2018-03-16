@@ -1,7 +1,2 @@
-/vendor
-/node_modules
-/app1
-/app2
-/assets1
-/resources1
 .env
+*.zip
